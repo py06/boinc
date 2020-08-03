@@ -107,7 +107,8 @@
 #define PROC_TYPE_AMD_GPU    2
 #define PROC_TYPE_INTEL_GPU  3
 #define PROC_TYPE_MINER_ASIC 4
-#define NPROC_TYPES          5
+#define PROC_TYPE_KALRAY_ACC 5
+#define NPROC_TYPES          6
 
 extern const char* proc_type_name(int);
     // user-readable name
@@ -119,6 +120,7 @@ extern int coproc_type_name_to_num(const char* name);
 #define GPU_TYPE_NVIDIA proc_type_name_xml(PROC_TYPE_NVIDIA_GPU)
 #define GPU_TYPE_ATI proc_type_name_xml(PROC_TYPE_AMD_GPU)
 #define GPU_TYPE_INTEL proc_type_name_xml(PROC_TYPE_INTEL_GPU)
+#define GPU_TYPE_KALRAY proc_type_name_xml(PROC_TYPE_KALRAY_ACC)
 
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
@@ -506,6 +508,7 @@ struct COPROCS {
         case PROC_TYPE_AMD_GPU: return &ati;
         case PROC_TYPE_INTEL_GPU: return &intel_gpu;
         case PROC_TYPE_MINER_ASIC: return lookup_type("miner_asic");
+        case PROC_TYPE_KALRAY_ACC: return lookup_type("kalray_acc");
         }
         return NULL;
     }

@@ -1013,6 +1013,7 @@ const char* proc_type_name_xml(int pt) {
     case PROC_TYPE_AMD_GPU: return "ATI";
     case PROC_TYPE_INTEL_GPU: return "intel_gpu";
     case PROC_TYPE_MINER_ASIC: return "miner_asic";
+    case PROC_TYPE_KALRAY_ACC: return "kalray_acc";
     }
     return "unknown";
 }
@@ -1024,6 +1025,7 @@ const char* proc_type_name(int pt) {
     case PROC_TYPE_AMD_GPU: return "AMD/ATI GPU";
     case PROC_TYPE_INTEL_GPU: return "Intel GPU";
     case PROC_TYPE_MINER_ASIC: return "Miner ASIC";
+    case PROC_TYPE_KALRAY_ACC: return "Kalray Accelerator";
     }
     return "unknown";
 }
@@ -1034,5 +1036,6 @@ int coproc_type_name_to_num(const char* name) {
     if (!strcmp(name, "ATI")) return PROC_TYPE_AMD_GPU;
     if (!strcmp(name, "intel_gpu")) return PROC_TYPE_INTEL_GPU;
     if (!strcmp(name, "miner_asic")) return PROC_TYPE_MINER_ASIC;
+    if (!strcmp(name, "kalray_acc")) return PROC_TYPE_KALRAY_ACC;
     return -1;      // Some other type
 }

@@ -91,6 +91,10 @@ using std::string;
 #define OPENCL_NVIDIA_MIN_RAM CUDA_MIN_RAM
 #endif
 
+#ifndef OPENCL_KALRAY_MIN_RAM
+#define OPENCL_KALRAY_MIN_RAM 512*MEGA
+#endif
+
 PLAN_CLASS_SPECS plan_class_specs;
 
 /* is there a plan class spec that restricts the worunit (or batch) */
@@ -693,6 +697,9 @@ static inline bool opencl_check(
     } else if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
         hu.proc_type = PROC_TYPE_INTEL_GPU;
         hu.gpu_usage = ndevs;
+    } else if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_KALRAY_ACC))) {
+        hu.proc_type = PROC_TYPE_KALRAY_ACC;
+        hu.gpu_usage = ndevs;
     }
 
     coproc_perf(
@@ -810,6 +817,42 @@ static inline bool app_plan_opencl(
                 1,
                 .1,
                 .2
+            );
+        } else {
+            log_messages.printf(MSG_CRITICAL,
+                "[version] [opencl] Unknown plan class: %s\n", plan_class
+            );
+            return false;
+        }
+    } else if (strstr(plan_class, "kalray_acc")) {
+        COPROC_KALRAY& c = sreq.coprocs.kalray_acc;
+        if (!c.count) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] HOST has no KALRAY Accelerators\n"
+                );
+            }
+            return false;
+        }
+
+        if (!c.have_opencl) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] GPU/Driver/BOINC revision doesn not support OpenCL\n"
+                );
+            }
+            return false;
+        }
+
+
+        if (strstr(plan_class,"opencl_kalray_acc") == plan_class) {
+            return opencl_check(
+                c, hu,
+                ver,
+                OPENCL_KALRAY_MIN_RAM,
+                1,
+                .01,
+                .14
             );
         } else {
             log_messages.printf(MSG_CRITICAL,

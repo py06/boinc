@@ -74,6 +74,9 @@ int get_vendor(cl_device_id device_id, char* vendor, int len) {
     if (strcasestr(vendor, "intel")) {
         strlcpy(vendor, GPU_TYPE_INTEL, len);     // "intel_gpu"
     }
+    if (strcasestr(vendor, "kalray")) {
+        strlcpy(vendor, GPU_TYPE_KALRAY, len);     // "kalray_acc"
+    }
 
     return 0;
 }
@@ -194,6 +197,9 @@ int boinc_get_opencl_ids(
             break;
         case PROC_TYPE_INTEL_GPU:
             gpu_type = (char *)GPU_TYPE_INTEL;
+            break;
+        case PROC_TYPE_KALRAY_ACC:
+            gpu_type = (char *)GPU_TYPE_KALRAY;
             break;
         }
     }

@@ -112,6 +112,11 @@ static bool is_intel(char* vendor) {
     return false;
 }
 
+static bool is_kalray(char* vendor) {
+    if (strcasestr(vendor, "kalray")) return true;
+    return false;
+}
+
 // If "loose", tolerate small diff
 //
 static int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
@@ -604,7 +609,17 @@ void COPROCS::get_opencl(
                 // opencl_device_index is passed to project apps via init_data.xml
                 // to differentiate among OpenCL devices from the same vendor. It is
                 // used by boinc_get_opencl_ids() to select the correct OpenCL device.
+
                 int opencl_device_index = 0;
+
+		if (is_kalray(prop.vendor)) {
+                            snprintf(buf, sizeof(buf),
+                                "OpenCL Kalray device #%u",
+                                device_index
+                            );
+                            warnings.push_back(buf);
+		}
+
                 for (unsigned int coproc_index=0; coproc_index<other_opencls.size(); coproc_index++) {
                     if (!strcmp(other_opencls[coproc_index].vendor, prop.vendor)) {
                         opencl_device_index++;  // Another OpenCL device from same vendor

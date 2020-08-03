@@ -290,6 +290,9 @@ int plan_class_to_proc_type(const char* plan_class) {
     if (strstr(plan_class, "miner_asic")) {
         return PROC_TYPE_MINER_ASIC;
     }
+    if (strstr(plan_class, "kalray_acc")) {
+        return PROC_TYPE_KALRAY_ACC;
+    }
     return PROC_TYPE_CPU;
 }
 

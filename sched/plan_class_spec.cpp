@@ -900,6 +900,9 @@ bool PLAN_CLASS_SPEC::check(
         } else if (!strcmp(gpu_type, "miner_asic")) {
             hu.proc_type = PROC_TYPE_MINER_ASIC;
             hu.gpu_usage = gpu_usage;
+        } else if (strstr(gpu_type, "kalray_acc")==gpu_type) {
+            hu.proc_type = PROC_TYPE_KALRAY_ACC;
+            hu.gpu_usage = gpu_usage;
         } else {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
