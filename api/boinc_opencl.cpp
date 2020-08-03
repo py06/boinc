@@ -105,7 +105,7 @@ int boinc_get_opencl_ids_aux(
     
     for (platform_index=0; platform_index<num_platforms; ++platform_index) {
         retval = clGetDeviceIDs(
-            platforms[platform_index], CL_DEVICE_TYPE_GPU,
+            platforms[platform_index], CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_ACCELERATOR,
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
         if (retval != CL_SUCCESS) continue;
